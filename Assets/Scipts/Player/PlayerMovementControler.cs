@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +8,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float playerSpeed;
     private float moveDirection;
     private float centerToEdge;
+    private float currentSpeedMultiplier = 1.0f;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,7 +27,11 @@ public class PlayerMovementController : MonoBehaviour
         DeterminesPlayerDirection(ctx.ReadValue<Vector2>());
     }
 
-
+    // Public method to set speed multiplier from other scripts
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        currentSpeedMultiplier = multiplier;
+    }
    
     private void DeterminesPlayerDirection(Vector2 value)
     {
@@ -38,12 +42,8 @@ public class PlayerMovementController : MonoBehaviour
     private void PlayerMovement()
     {
         if(transform.position.x < centerToEdge && moveDirection > 0 || transform.position.x > -centerToEdge && moveDirection < 0)
-
-
         {
-            transform.Translate(Vector3.right * playerSpeed * moveDirection * Time.deltaTime);
+            transform.Translate(Vector3.right * playerSpeed * currentSpeedMultiplier * moveDirection * Time.deltaTime);
         }
-
     }
-
 }
